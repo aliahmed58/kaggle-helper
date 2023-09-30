@@ -8,6 +8,8 @@ from sklearn.model_selection import train_test_split, RepeatedKFold, GridSearchC
 from sklearn.metrics import roc_curve, roc_auc_score
 from sklearn.preprocessing import MinMaxScaler
 import config
+import submitter
+import os
 
 # loading datasets
 train_df = pd.read_csv('data/train.csv')
@@ -60,9 +62,16 @@ output = pd.DataFrame()
 output['RecordID'] = record_ids
 output['hospital_death'] = probs
 
+# create output folder if does not exist
+if not os.path.exists('./out'):
+    os.mkdir('./out')
+
 output.to_csv(config.OUTPUT_FILE_NAME, index=False)
 
 # get configs
 config_str = config.get_configs(best_params)
 
 print(config_str)
+
+if config.SUBMIT_TO_KAGGLE_GOOGLE:
+    submitter.make_submission(config.COMPETITION_NAME, './out/output.csv', config_str)

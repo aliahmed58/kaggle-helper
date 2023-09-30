@@ -8,13 +8,10 @@ NUMERICAL_IMPUTATION = 'mean' # knn or mean
 CATEGORICAL_IMPUTAITON = 'mode' #
 ENCODING = 'one_hot' 
 SCALING = 'minmax' # standard or minmax
-FORWARD_FEATURING = True 
+FORWARD_FEATURING = False 
 BEST_FEATURES = 15 # if forward_featuring = true
 
-# MODEL = KNeighborsClassifier(n_neighbors=91)
-MODEL = DecisionTreeClassifier(max_depth=7, min_samples_split=10)
-# MODEL = GaussianNB()
-MODEL_NAME = 'Decision Tree Classifier'
+MODEL = GradientBoostingClassifier()
 
 TREE_PARAMS_GRID_SEARCH = {
     'max_depth': [3, 4, 5, 6, 7, 8, 9],
@@ -26,7 +23,53 @@ TREE_PARAMS_GRID_SEARCH = {
 # }
 
 OUTPUT_FILE_NAME = './out/output.csv'
-SUBMIT_TO_KAGGLE = False
+
+SUBMIT_TO_KAGGLE_GOOGLE = True
+COMPETITION_NAME = 'iml-fall-2023-first-challenge'
+
+"""
+********* Options below are for google form submission *********
+"""
+
+"""
+Options 'Random Forest', 'Gradient Boosting', 'Adaptive Boosting', 'Light GBM', 'XGBoost', 'CatBoost'
+'BaggingClassifier', 'other' (CASE SENSITIVE)
+"""
+MODEL_NAME = 'Gradient Boosting' 
+
+email = 'aliahmednadeem5859@gmail.com'
+erp = '23017'
+kaggle_username = 'aliahmednadeem'
+parameter_specification = 'default'
+
+"""
+Additional notes (leave blank if nothing)
+"""
+additional_notes = ''
+
+"""
+Data cleaning techniques
+Comment out the ones not needed
+"""
+data_cleaning_techniques = [
+    'One-hot encoding', 
+    'Scaling/Normalisation', 
+    # 'Feature Importance',
+    # 'Forward/Backward Selection',
+    # 'Label Encoding'
+    ]
+
+"""
+How missing values were handled
+Comment out the values not needed
+"""
+missing_values_handled = [
+    # 'Removed',
+    'Simple Imputation',
+    # 'KNN Imputation',
+    # 'None'
+]
+
 
 def get_configs(params) -> str:
     config_str = f'Model used: {MODEL_NAME} {params} \nNumerical Imputation using {NUMERICAL_IMPUTATION}\nCategorical Imputation using {CATEGORICAL_IMPUTAITON} \nCategorical encoding using {ENCODING}\nScaling method: {SCALING}\n'
