@@ -37,9 +37,9 @@ Options 'Random Forest', 'Gradient Boosting', 'Adaptive Boosting', 'Light GBM', 
 """
 MODEL_NAME = 'Gradient Boosting' 
 
-email = 'aliahmednadeem5859@gmail.com'
-erp = '23017'
-kaggle_username = 'aliahmednadeem'
+email = ''
+erp = ''
+kaggle_username = ''
 parameter_specification = 'default'
 
 """

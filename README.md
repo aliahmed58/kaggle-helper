@@ -33,6 +33,11 @@ Submission to kaggle needs the kaggle.json file in ~/.Kaggle or C:\Users\<userna
 
 Google on automated browser requires captcha to be submitted, so the last submit has to be done manually :(.
 
+Important params to change in ```config.py```:
+1. ```email```
+2. ```erp```
+3. ```kaggle_username```
+
 The parameters used in google form are specified in ```config.py``` with commented instructions on how to set them. For now, the options are case sensitive. (To be automated more later)
 
 
