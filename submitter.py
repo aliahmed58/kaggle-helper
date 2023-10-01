@@ -147,9 +147,6 @@ def fill_google_form():
     send_a_copy = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/form/div[2]/div/div[3]/div[1]/label/div/div[1]')
     send_a_copy.click()
     
-    if config.AUTO_SUBMIT_GOOGLE:
-        send_btn = browser.find_element(By.XPATH, '/html/body/div[1]/div[2]/form/div[2]/div/div[3]/div[3]/div[1]/div/span')
-        send_btn.click()
     
     while (True):
         pass

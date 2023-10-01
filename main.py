@@ -22,8 +22,8 @@ record_ids = test_df['RecordID']
 Y = train_df['hospital_death']
 
 # drop unneccesary columns
-utils.drop_columns(train_df, 'RecordID', 'hospital_id', 'hospital_death')
-utils.drop_columns(test_df, 'RecordID', 'hospital_id')
+utils.drop_columns(train_df, 'RecordID', 'hospital_id', 'hospital_death', 'icu_id','ethnicity','gender','icu_admit_source','icu_stay_type','icu_type')
+utils.drop_columns(test_df, 'RecordID', 'hospital_id', 'icu_id','ethnicity','gender','icu_admit_source','icu_stay_type','icu_type')
 
 # imputing numericals
 utils.impute_numericals(train_df, config.NUMERICAL_IMPUTATION)

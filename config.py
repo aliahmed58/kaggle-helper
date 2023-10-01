@@ -2,16 +2,17 @@ from sklearn.tree import ExtraTreeClassifier, DecisionTreeClassifier, ExtraTreeR
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
+from catboost import CatBoostClassifier
 
 
 NUMERICAL_IMPUTATION = 'mean' # knn or mean
 CATEGORICAL_IMPUTAITON = 'mode' #
 ENCODING = 'one_hot' 
-SCALING = 'minmax' # standard or minmax
+SCALING = 'standard' # standard or minmax
 FORWARD_FEATURING = False 
 BEST_FEATURES = 15 # if forward_featuring = true
 
-MODEL = GradientBoostingClassifier()
+MODEL = CatBoostClassifier()
 
 TREE_PARAMS_GRID_SEARCH = {
     'max_depth': [3, 4, 5, 6, 7, 8, 9],
@@ -35,7 +36,7 @@ COMPETITION_NAME = 'iml-fall-2023-first-challenge'
 Options 'Random Forest', 'Gradient Boosting', 'Adaptive Boosting', 'Light GBM', 'XGBoost', 'CatBoost'
 'BaggingClassifier', 'other' (CASE SENSITIVE)
 """
-MODEL_NAME = 'Gradient Boosting' 
+MODEL_NAME = 'CatBoost' 
 
 email = ''
 erp = ''
@@ -72,7 +73,7 @@ missing_values_handled = [
 
 
 def get_configs(params) -> str:
-    config_str = f'Model used: {MODEL_NAME} {params} \nNumerical Imputation using {NUMERICAL_IMPUTATION}\nCategorical Imputation using {CATEGORICAL_IMPUTAITON} \nCategorical encoding using {ENCODING}\nScaling method: {SCALING}\n'
+    config_str = f'Model used: {MODEL_NAME} {params} || Numerical Imputation using {NUMERICAL_IMPUTATION} || Categorical Imputation using {CATEGORICAL_IMPUTAITON} || Categorical encoding using {ENCODING} || Scaling method: {SCALING} ||'
         
     if FORWARD_FEATURING:
         config_str = config_str + f'Forward Featuring used to select best {BEST_FEATURES} features'

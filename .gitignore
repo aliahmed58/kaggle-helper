@@ -2,3 +2,4 @@ __pycache__/
 venv/
 out/
 .vscode/
+catboost_info/

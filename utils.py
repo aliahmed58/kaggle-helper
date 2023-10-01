@@ -74,7 +74,7 @@ def encode_dataset(df: pd.DataFrame, strategy: str) -> pd.DataFrame:
 
     if strategy == 'one_hot':
         object_cols = df.select_dtypes(include='object').columns
-        df = pd.get_dummies(df, prefix='isin', prefix_sep='_', columns=list(object_cols), drop_first=False, dtype=np.uint8)
+        df = pd.get_dummies(df, columns=list(object_cols), drop_first=False, dtype=np.uint8)
     
     if strategy == 'label':
         pass
@@ -93,7 +93,7 @@ def select_features(X, Y, n_features, model) -> list:
     Returns:
         list: list of column names that are selected
     """
-    sfs = SequentialFeatureSelector(model, direction='forward',n_features_to_select=n_features, scoring='roc_auc')
+    sfs = SequentialFeatureSelector(model, direction='forward',n_features_to_select=n_features, n_jobs=-1, scoring='roc_auc')
     sfs.fit(X, Y)
     return list(sfs.get_feature_names_out())
 
