@@ -1,31 +1,40 @@
 from sklearn.tree import ExtraTreeClassifier, DecisionTreeClassifier, ExtraTreeRegressor
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, BaggingClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
-from catboost import CatBoostClassifier
+from catboost import CatBoostClassifier, CatBoostRegressor
+from xgboost import XGBClassifier
 
 
 NUMERICAL_IMPUTATION = 'mean' # knn or mean
 CATEGORICAL_IMPUTAITON = 'mode' #
 ENCODING = 'one_hot' 
-SCALING = 'standard' # standard or minmax
-FORWARD_FEATURING = False 
+SCALING = 'minmax' # standard or minmax
+FORWARD_FEATURING = False     
 BEST_FEATURES = 15 # if forward_featuring = true
-
-MODEL = CatBoostClassifier()
-
-TREE_PARAMS_GRID_SEARCH = {
-    'max_depth': [3, 4, 5, 6, 7, 8, 9],
-    'min_samples_split': [1, 2, 3, 5, 7, 8, 9, 11]
+GRID_SEARCH = True
+"""
+The GRID_SEARCH_PARAMS should be a dictionary with list of parmas specific to the model
+GRID_SEARCH_PARAMS = {
+    'parameter_name': [... possible values of the parameter],
+    'antoher_param_name': [... another possible values :D]
+    'iterations': [100, 200, 300...]
+}
+When GRID_SEARCH = True, leave constructor params of MODEL empty
+"""
+GRID_SEARCH_PARAMS = {
+    'iterations': [1700, 2500, 7000, 12000],
+    'max_depth': [5, 7, 9],
+    'learning_rate': [0.004, 0.0005]
 }
 
-# TREE_PARAMS_GRID_SEARCH = {
-#     'n_neighbors': [11, 21, 45, 61, 91],
-# }
+
+MODEL =CatBoostClassifier(verbose=3)
+
 
 OUTPUT_FILE_NAME = './out/output.csv'
 
-SUBMIT_TO_KAGGLE_GOOGLE = True
+SUBMIT_TO_KAGGLE_GOOGLE = False
 COMPETITION_NAME = 'iml-fall-2023-first-challenge'
 
 """
@@ -55,9 +64,10 @@ Comment out the ones not needed
 data_cleaning_techniques = [
     'One-hot encoding', 
     'Scaling/Normalisation', 
-    # 'Feature Importance',
+    'Feature Importance',
     # 'Forward/Backward Selection',
-    # 'Label Encoding'
+    # 'Label Encoding',
+    'Principal Component Analysis'
     ]
 
 """

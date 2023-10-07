@@ -111,15 +111,7 @@ def fill_google_form():
             continue
             
         if key == 'model_name':
-            model_dict = form_input_dict[key]
-            name_button = browser.find_element(By.XPATH, model_dict['name_button'])
             
-            name_button.send_keys(Keys.ENTER)
-            
-            time.sleep(1)
-            
-            model_name = browser.find_element(By.XPATH, model_dict[config.MODEL_NAME])
-            model_name.click()
             
             continue
         

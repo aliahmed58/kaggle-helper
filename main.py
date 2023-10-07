@@ -3,9 +3,11 @@ import pandas as pd
 from sklearn.tree import ExtraTreeClassifier, DecisionTreeClassifier, ExtraTreeRegressor
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.naive_bayes import GaussianNB
+from sklearn.decomposition import PCA
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split, RepeatedKFold, GridSearchCV, cross_val_score
 from sklearn.metrics import roc_curve, roc_auc_score
+from sklearn.feature_selection import SequentialFeatureSelector, SelectKBest, f_classif
 from sklearn.preprocessing import MinMaxScaler
 import config
 import submitter
@@ -22,8 +24,10 @@ record_ids = test_df['RecordID']
 Y = train_df['hospital_death']
 
 # drop unneccesary columns
-utils.drop_columns(train_df, 'RecordID', 'hospital_id', 'hospital_death', 'icu_id','ethnicity','gender','icu_admit_source','icu_stay_type','icu_type')
-utils.drop_columns(test_df, 'RecordID', 'hospital_id', 'icu_id','ethnicity','gender','icu_admit_source','icu_stay_type','icu_type')
+utils.drop_columns(train_df, 'RecordID', 'hospital_id', 'hospital_death', 'icu_id','ethnicity','gender','icu_admit_source',
+                   'icu_stay_type','icu_type', 'hospital_death')
+utils.drop_columns(test_df, 'RecordID', 'hospital_id', 'icu_id','ethnicity','gender','icu_admit_source','icu_stay_type','icu_type',
+                   )
 
 # imputing numericals
 utils.impute_numericals(train_df, config.NUMERICAL_IMPUTATION)
@@ -40,18 +44,21 @@ train_df = utils.encode_dataset(train_df, config.ENCODING)
 test_df = utils.encode_dataset(test_df, config.ENCODING)
 
 # X data frame
-X = train_df.loc[:, train_df.columns != 'hospital_death']
+X = train_df
 
 if config.FORWARD_FEATURING:
-    best_feautres = list(utils.select_features(X, Y, config.BEST_FEATURES, model=config.MODEL))
-    X = train_df[best_feautres]
-    test_df = test_df[best_feautres]
+    best_features = list(utils.select_features(X, Y, config.BEST_FEATURES, model=config.MODEL))
+    print(best_features)
+    X = train_df[best_features]
+    test_df = test_df[best_features]
     
 best_params = ''
-if type(config.MODEL) in [DecisionTreeClassifier, ExtraTreeClassifier, ExtraTreeRegressor, KNeighborsClassifier]: 
-    best_params = utils.grid_search(config.TREE_PARAMS_GRID_SEARCH, config.MODEL, X, Y)
+if config.GRID_SEARCH: 
+    best_params = utils.grid_search(config.GRID_SEARCH_PARAMS, config.MODEL, X, Y)
 
     config.MODEL = config.MODEL.set_params(**best_params)
+
+print(config.MODEL.get_params())
 
 config.MODEL = utils.fit_model(X, Y, config.MODEL, 'Model Ran: ')
 

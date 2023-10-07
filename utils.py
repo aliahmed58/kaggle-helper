@@ -5,7 +5,9 @@ from sklearn.impute import SimpleImputer, KNNImputer
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from sklearn.model_selection import train_test_split, RepeatedKFold, GridSearchCV
 from sklearn.metrics import roc_auc_score
-from sklearn.feature_selection import SequentialFeatureSelector
+from sklearn.feature_selection import SequentialFeatureSelector, SelectKBest
+from sklearn.naive_bayes import GaussianNB
+from sklearn.tree import DecisionTreeClassifier
 import numpy as np
 
 def drop_columns(df: pd.DataFrame, *columns):
@@ -37,7 +39,7 @@ def impute_numericals(df: pd.DataFrame, strategy: str):
     
     # if strategy is knn use a KNN Imputer
     if strategy == 'knn':
-        knn_imputer = KNNImputer(n_neighbors=2001)
+        knn_imputer = KNNImputer(n_neighbors=49)
         knn_imputer = knn_imputer.fit(df[numerical_columns].values)
         df[numerical_columns] = knn_imputer.transform(df[numerical_columns].values)
         
@@ -93,7 +95,7 @@ def select_features(X, Y, n_features, model) -> list:
     Returns:
         list: list of column names that are selected
     """
-    sfs = SequentialFeatureSelector(model, direction='forward',n_features_to_select=n_features, n_jobs=-1, scoring='roc_auc')
+    sfs = SequentialFeatureSelector(model, direction='forward', n_features_to_select=n_features, n_jobs=-1, scoring='roc_auc')
     sfs.fit(X, Y)
     return list(sfs.get_feature_names_out())
 
@@ -154,7 +156,7 @@ def grid_search(params, model, X, Y):
         _type_: _description_
     """
     cv = RepeatedKFold(n_splits=10, n_repeats=1)#, random_state=1)
-    grid_search = GridSearchCV(model, params, cv=cv, n_jobs=-1, scoring='roc_auc',verbose=2)#, refit=False)
+    grid_search = GridSearchCV(model, params, cv=cv, n_jobs=-1, scoring='roc_auc', verbose=3)#, refit=False)
     grid_search.fit(X, Y)
     print(grid_search.best_estimator_)
     print(grid_search.best_score_)
