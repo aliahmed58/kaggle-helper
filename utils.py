@@ -116,13 +116,13 @@ def fit_model(X, Y, model, model_name):
     # pass train x 
     model.fit(trainX, trainY)
     # get the probabilities
-    md_probs = model.predict_proba(testX)
+    md_probs = model.predict(testX)
     # change array shape
-    md_probs = md_probs[:,1]
+    # md_probs = md_probs[:,1]
     # calcualte score
-    md_auc = roc_auc_score(testY, md_probs)
+    # md_auc = roc_auc_score(testY, md_probs)
     
-    print(model_name, " : ", md_auc)
+    # print(model_name, " : ", md_auc)
     
     return model
 
@@ -136,9 +136,9 @@ def predict(test_df: pd.DataFrame, model):
     Returns:
         _type_: array of probabilites 
     """
-    probs = model.predict_proba(test_df)
+    probs = model.predict(test_df)
     
-    probs = probs[:,1]
+    # probs = probs[:,1]
     
     return probs
 

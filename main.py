@@ -18,16 +18,17 @@ train_df = pd.read_csv('data/train.csv')
 test_df = pd.read_csv('data/test.csv')
 
 # record ids from test data set
-record_ids = test_df['RecordID']
+record_ids = [x for x in range(0, len(test_df))]
 
 # Y value hopsital deatb
-Y = train_df['hospital_death']
+Y = train_df['price_doc']
+Y = Y.astype('int')
+
+print(Y.dtype)
 
 # drop unneccesary columns
-utils.drop_columns(train_df, 'RecordID', 'hospital_id', 'hospital_death', 'icu_id','ethnicity','gender','icu_admit_source',
-                   'icu_stay_type','icu_type', 'hospital_death')
-utils.drop_columns(test_df, 'RecordID', 'hospital_id', 'icu_id','ethnicity','gender','icu_admit_source','icu_stay_type','icu_type',
-                   )
+# utils.drop_columns(train_df, '')
+# utils.drop_columns(test_df, 'ID')
 
 # imputing numericals
 utils.impute_numericals(train_df, config.NUMERICAL_IMPUTATION)
@@ -66,8 +67,8 @@ probs = utils.predict(test_df, config.MODEL)
 
 output = pd.DataFrame()
 
-output['RecordID'] = record_ids
-output['hospital_death'] = probs
+output['ID'] = record_ids
+output['price_doc'] = probs
 
 # create output folder if does not exist
 if not os.path.exists('./out'):

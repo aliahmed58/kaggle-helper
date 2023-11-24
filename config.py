@@ -2,8 +2,6 @@ from sklearn.tree import ExtraTreeClassifier, DecisionTreeClassifier, ExtraTreeR
 from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, BaggingClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neighbors import KNeighborsClassifier
-from catboost import CatBoostClassifier, CatBoostRegressor
-from xgboost import XGBClassifier
 
 
 NUMERICAL_IMPUTATION = 'mean' # knn or mean
@@ -12,7 +10,7 @@ ENCODING = 'one_hot'
 SCALING = 'minmax' # standard or minmax
 FORWARD_FEATURING = False     
 BEST_FEATURES = 15 # if forward_featuring = true
-GRID_SEARCH = True
+GRID_SEARCH = False
 """
 The GRID_SEARCH_PARAMS should be a dictionary with list of parmas specific to the model
 GRID_SEARCH_PARAMS = {
@@ -29,7 +27,7 @@ GRID_SEARCH_PARAMS = {
 }
 
 
-MODEL =CatBoostClassifier(verbose=3)
+MODEL = GaussianNB()
 
 
 OUTPUT_FILE_NAME = './out/output.csv'
